@@ -253,6 +253,10 @@ body {
   background: var(--accent-soft);
   color: var(--accent);
 }
+/* User bubbles already sit on --accent-soft, so hover needs a different tint. */
+.bubble.user .tool-btn:hover {
+  background: var(--surface);
+}
 
 .romaji {
   font-size: 0.85rem;

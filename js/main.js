@@ -290,8 +290,16 @@ function wireAnswerCard(line) {
       const transcript = document.getElementById("transcript");
       transcript.insertAdjacentHTML(
         "beforeend",
-        `<div class="bubble user"><div class="jp">${escapeHtml(value)}</div></div>`
+        `<div class="bubble user"><div class="jp">${escapeHtml(value)}</div>
+           <div class="bubble-tools"><button class="tool-btn user-play-btn" title="Play my answer">🔊</button></div>
+         </div>`
       );
+      transcript.lastElementChild
+        .querySelector(".user-play-btn")
+        .addEventListener("click", () => {
+          if (!ttsSupported) return;
+          speak(value, { voiceURI: settings.voiceURI, rate: settings.rate });
+        });
       transcript.lastElementChild.scrollIntoView({ behavior: "smooth", block: "end" });
 
       document.getElementById("active-area").innerHTML = "";
