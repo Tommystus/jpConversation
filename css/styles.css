@@ -1,0 +1,488 @@
+/* JP Conv — N5 conversation practice */
+
+:root {
+  --bg: #f6f5f1;
+  --surface: #ffffff;
+  --ink: #2b2a27;
+  --ink-soft: #6f6c66;
+  --accent: #b03a2e; /* vermilion, torii-inspired */
+  --accent-soft: #fbe9e7;
+  --good: #2e7d32;
+  --good-soft: #e8f5e9;
+  --bad: #c62828;
+  --bad-soft: #ffebee;
+  --border: #e3e0d8;
+  --radius: 14px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1d1c19;
+    --surface: #26241f;
+    --ink: #ece9e2;
+    --ink-soft: #a5a099;
+    --accent: #e0685c;
+    --accent-soft: #3a2622;
+    --good: #81c784;
+    --good-soft: #22301f;
+    --bad: #ef9a9a;
+    --bad-soft: #33201e;
+    --border: #3a372f;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    "Hiragino Kaku Gothic ProN", "Yu Gothic", Meiryo, "Noto Sans JP",
+    system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+/* ---------- top bar ---------- */
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.25rem;
+  background: var(--accent);
+  color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.brand {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1.35rem;
+  font-weight: 700;
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.brand-sub {
+  font-size: 0.72rem;
+  font-weight: 500;
+  opacity: 0.85;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.icon-btn {
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  font-size: 1.15rem;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* ---------- layout ---------- */
+
+#app {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 1.25rem;
+}
+
+.page-title {
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+  margin: 0.5rem 0 1rem;
+}
+
+/* ---------- home: scenario cards ---------- */
+
+.scenario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17rem, 1fr));
+  gap: 1rem;
+}
+
+.scenario-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.2rem;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.scenario-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+.scenario-card:focus-visible {
+  outline: 2px solid var(--accent);
+}
+
+.scenario-icon {
+  font-size: 1.8rem;
+}
+
+.scenario-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0.35rem 0 0;
+}
+.scenario-title-en {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+}
+.scenario-desc {
+  margin-top: 0.4rem;
+  font-size: 0.88rem;
+  color: var(--ink);
+}
+
+.scenario-progress {
+  margin-top: 0.7rem;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+.stars {
+  letter-spacing: 0.15em;
+  color: var(--accent);
+}
+
+/* ---------- session ---------- */
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.9rem;
+  padding: 0;
+  margin-bottom: 0.75rem;
+}
+.back-btn:hover {
+  color: var(--accent);
+}
+
+.session-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.session-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+.session-step {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.dialogue {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.bubble {
+  max-width: 88%;
+  padding: 0.8rem 1.05rem;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  animation: pop 0.18s ease-out;
+}
+.bubble.partner {
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+}
+.bubble.user {
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+  background: var(--accent-soft);
+  border-color: transparent;
+}
+.bubble.jp {
+  font-size: 1.12rem;
+}
+
+@keyframes pop {
+  from {
+    transform: scale(0.96);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.bubble-tools {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.45rem;
+}
+
+.tool-btn {
+  border: none;
+  background: none;
+  color: var(--ink-soft);
+  font-size: 0.78rem;
+  cursor: pointer;
+  padding: 0.15rem 0.4rem;
+  border-radius: 8px;
+}
+.tool-btn:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.romaji {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  font-style: italic;
+  margin-top: 0.3rem;
+}
+.en-text {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin-top: 0.3rem;
+}
+
+rt {
+  font-size: 0.62em;
+  color: var(--accent);
+}
+.no-furigana rt {
+  visibility: hidden;
+}
+
+/* ---------- answer area ---------- */
+
+.answer-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.2rem;
+  animation: pop 0.18s ease-out;
+}
+
+.task-label {
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin: 0 0 0.3rem;
+}
+
+.hint-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0.6rem 0 0.8rem;
+}
+
+.chip {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--ink-soft);
+  border-radius: 999px;
+  padding: 0.2rem 0.75rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+.chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.input-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.input-row input {
+  flex: 1;
+  font: inherit;
+  font-size: 1.05rem;
+  padding: 0.6rem 0.8rem;
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  background: var(--bg);
+  color: var(--ink);
+}
+.input-row input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.mic-btn.listening {
+  background: var(--bad);
+  animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+  50% {
+    box-shadow: 0 0 0 8px rgba(198, 40, 40, 0.15);
+  }
+}
+
+.btn {
+  font: inherit;
+  padding: 0.55rem 1.1rem;
+  border-radius: 10px;
+  border: 1.5px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+}
+.btn:hover {
+  border-color: var(--accent);
+}
+.btn-primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.btn-danger {
+  color: var(--bad);
+  border-color: var(--bad);
+}
+
+.feedback {
+  margin-top: 0.7rem;
+  font-size: 0.92rem;
+  min-height: 1.4em;
+}
+.feedback.good {
+  color: var(--good);
+  font-weight: 700;
+}
+.feedback.bad {
+  color: var(--bad);
+}
+
+.answer-reveal {
+  margin-top: 0.6rem;
+  padding: 0.7rem 0.9rem;
+  background: var(--good-soft);
+  border-radius: 10px;
+}
+
+.shake {
+  animation: shake 0.3s;
+}
+@keyframes shake {
+  25% {
+    transform: translateX(-5px);
+  }
+  75% {
+    transform: translateX(5px);
+  }
+}
+
+/* ---------- completion ---------- */
+
+.result-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 2rem 1.5rem;
+  text-align: center;
+  animation: pop 0.2s ease-out;
+}
+.result-stars {
+  font-size: 2.2rem;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+}
+.result-score {
+  font-size: 1.1rem;
+  margin: 0.5rem 0 0.2rem;
+}
+.result-note {
+  color: var(--ink-soft);
+  font-size: 0.9rem;
+  margin-bottom: 1.4rem;
+}
+.result-actions {
+  display: flex;
+  justify-content: center;
+  gap: 0.7rem;
+}
+
+/* ---------- settings dialog ---------- */
+
+dialog {
+  border: none;
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  padding: 1.5rem;
+  width: min(24rem, 90vw);
+}
+dialog::backdrop {
+  background: rgba(0, 0, 0, 0.4);
+}
+dialog h2 {
+  margin: 0 0 1rem;
+  font-size: 1.2rem;
+}
+.field {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+.field select,
+.field input[type="range"] {
+  display: block;
+  width: 100%;
+  margin-top: 0.3rem;
+  font: inherit;
+  padding: 0.4rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--ink);
+}
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.92rem;
+  margin-bottom: 0.55rem;
+}
+.danger-zone {
+  margin: 1.2rem 0 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+.hint-text {
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+dialog menu {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0;
+  margin: 1rem 0 0;
+  list-style: none;
+}

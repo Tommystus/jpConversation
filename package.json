@@ -1,0 +1,9 @@
+{
+  "name": "jpconv",
+  "version": "0.1.0",
+  "description": "N5 Japanese conversation practice with scripted scenarios",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs"
+  }
+}
