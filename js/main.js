@@ -216,6 +216,9 @@ function wireBubbleTools(bubble, line) {
 
 const SLOW_RATE = 0.6;
 
+// Time to let the model-answer replay play out before moving on.
+const NEXT_LINE_DELAY_MS = 5000;
+
 function speakLine(line, rate = settings.rate) {
   if (!ttsSupported) return;
   speak(toPlain(line.text), { voiceURI: settings.voiceURI, rate });
@@ -303,7 +306,7 @@ function wireAnswerCard(line) {
       transcript.lastElementChild.scrollIntoView({ behavior: "smooth", block: "end" });
 
       document.getElementById("active-area").innerHTML = "";
-      setTimeout(() => session && nextLine(), 1200);
+      setTimeout(() => session && nextLine(), NEXT_LINE_DELAY_MS);
     } else {
       session.attempts++;
       card.classList.remove("shake");
