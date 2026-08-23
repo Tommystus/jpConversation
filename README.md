@@ -1,4 +1,4 @@
-# JP Conv — N5 Conversation Practice
+# JP Conversation — N5 Conversation Practice
 
 A zero-dependency web app for practicing Japanese conversation at the JLPT N5
 level. You work through scripted dialogues (konbini, café, directions, self-
@@ -6,6 +6,8 @@ introduction): the app speaks the other person's lines with text-to-speech,
 and you answer each turn by voice (Chrome/Edge mic) or by typing. Answers are
 checked with fuzzy matching that forgives punctuation, spacing, katakana vs
 hiragana, and small typos.
+
+GitHub deployed [Link](https://tommystus.github.io/jpConversation/)
 
 ## Quick start
 
